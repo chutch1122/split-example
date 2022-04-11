@@ -7,15 +7,11 @@ import {Treatments} from "@splitsoftware/splitio/types/splitio";
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   treatments!: Treatments;
 
   constructor(private splitioService: SplitioService) {
     splitioService.initSdk();
-  }
-
-  ngOnInit(): void {
-    this.treatments = this.splitioService.treatments
   }
 
   getColor(): string {
