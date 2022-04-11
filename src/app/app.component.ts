@@ -18,8 +18,10 @@ export class AppComponent {
     const color = this.splitioService.getTreatment('color')
     if(color === 'blue'){
       return 'blue'
-    } else {
+    } else if (color === 'black') {
       return 'black'
+    } else {
+      return ''
     }
   }
 }
