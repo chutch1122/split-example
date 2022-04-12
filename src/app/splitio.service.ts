@@ -3,34 +3,25 @@ import {fromEvent, Subscription} from 'rxjs';
 import * as SplitIO from "@splitsoftware/splitio/types/splitio";
 import {SplitFactory} from "@splitsoftware/splitio";
 
+const {v4: uuidv4} = require('uuid');
+
 @Injectable()
 export class SplitioService {
   /**
    * The local reference to the Split SDK.
    */
   splitio!: SplitIO.ISDK;
+
   /**
    * The local reference to the Split SDK's Client.
    */
   splitClient!: SplitIO.IClient;
-  /**
-   * Flag to determine if SDK is ready or not.
-   */
-  /**
-   * The local reference to the list of Treatments.
-   */
-  treatments!: SplitIO.Treatments;
-  /**
-   * The list of Features/Split from which to get the corresponding
-   * treatments.
-   */
-  features: string[] = [
-    'color'
-  ];
+
   /**
    * The local reference to the SDK's ready Observable.
    */
   subscription!: Subscription;
+
   private isReady = false;
 
   /**
@@ -44,10 +35,10 @@ export class SplitioService {
     this.splitio = SplitFactory({
       core: {
         authorizationKey: 'localhost',
-        key: 'its_me'
+        key: uuidv4()
       },
       features: {
-        'color': { treatment: 'blue', config: null }, //example of a defined config
+        'color': {treatment: 'blue', config: null},
       },
     });
     this.splitClient = this.splitio.client();
@@ -77,7 +68,7 @@ export class SplitioService {
     );
   }
 
-  getTreatment(feature: string): string{
+  getTreatment(feature: string): string {
     return this.splitClient.getTreatment(feature)
   }
 

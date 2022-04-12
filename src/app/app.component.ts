@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {SplitioService} from "./splitio.service";
-import {Treatments} from "@splitsoftware/splitio/types/splitio";
 
 @Component({
   selector: 'app-root',
@@ -8,10 +7,14 @@ import {Treatments} from "@splitsoftware/splitio/types/splitio";
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  treatments!: Treatments;
-
-  constructor(private splitioService: SplitioService) {
+  constructor(
+    private splitioService: SplitioService
+  ) {
     splitioService.initSdk();
+    this.splitioService.splitClient.on(splitioService.splitClient.Event.SDK_UPDATE, ()=>{
+      console.log("SDK updated")
+
+    });
   }
 
   getColor(): string {
