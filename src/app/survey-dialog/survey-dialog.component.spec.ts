@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AudioDialogComponent } from './audio-dialog.component';
+import { SurveyDialogComponent } from './survey-dialog.component';
 
 describe('AudioDialogComponent', () => {
-  let component: AudioDialogComponent;
-  let fixture: ComponentFixture<AudioDialogComponent>;
+  let component: SurveyDialogComponent;
+  let fixture: ComponentFixture<SurveyDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AudioDialogComponent ]
+      declarations: [ SurveyDialogComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AudioDialogComponent);
+    fixture = TestBed.createComponent(SurveyDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

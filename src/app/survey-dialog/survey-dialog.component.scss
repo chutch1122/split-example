@@ -1,0 +1,56 @@
+.root {
+  height: 99%;
+  width: 99%;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+
+  .survey_wrapper {
+    height: 50%;
+    display: flex;
+    margin: auto;
+    justify-content: center;
+    flex-direction: column;
+
+    a {
+      width: 50%;
+      margin: auto;
+
+      button {
+        width: 100%;
+      }
+    }
+  }
+
+  .github_wrapper {
+    height: 50%;
+    display: flex;
+    margin: auto;
+    justify-content: center;
+    flex-direction: column;
+
+    a {
+      margin: auto;
+
+      .github_icon_wrapper {
+        width: 74px;
+        height: 74px;
+        background-color: gray;
+        margin: auto;
+      }
+    }
+  }
+
+  h1 {
+    font-weight: bold;
+    text-align: center;
+  }
+
+  img {
+    display: flex;
+    height: 64px;
+    width: 64px;
+    //justify-self: center;
+    margin: auto;
+  }
+}

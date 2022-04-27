@@ -9,9 +9,8 @@
 .square {
  height: 10rem;
   width: 10rem;
-  background-color: green;
+  background-color: yellow;
   border-radius: 15px;
-
 }
 
 .blue {
@@ -21,9 +20,18 @@
   border-width: 10px;
 }
 
-.black {
-  background-color: black;
-  border-style: none;
+.red {
+  background-color: red;
+  border-style: double;
+  border-color: pink;
+  border-width: 10px;
+}
+
+.green {
+  background-color: limegreen;
+  border-style: double;
+  border-color: lime;
+  border-width: 10px;
 }
 
 h1 {

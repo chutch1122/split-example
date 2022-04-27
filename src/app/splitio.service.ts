@@ -1,7 +1,8 @@
 import {Injectable} from '@angular/core';
-import {fromEvent, Subscription} from 'rxjs';
+import {BehaviorSubject, fromEvent, map, Observable, Subscription} from 'rxjs';
 import * as SplitIO from "@splitsoftware/splitio/types/splitio";
 import {SplitFactory} from "@splitsoftware/splitio";
+import {Treatments} from '@splitsoftware/splitio/types/splitio';
 
 const {v4: uuidv4} = require('uuid');
 
@@ -22,7 +23,9 @@ export class SplitioService {
    */
   subscription!: Subscription;
 
-  private isReady = false;
+  // private isReady = false;
+  private treatments = new BehaviorSubject<Treatments>({});
+  private readonly splitNames = ['color', 'survey'];
 
   /**
    * This method initializes the SDK with the required Browser APIKEY
@@ -34,11 +37,8 @@ export class SplitioService {
   initSdk(): void {
     this.splitio = SplitFactory({
       core: {
-        authorizationKey: 'localhost',
+        authorizationKey: 'qvlsr4mkhd5q56otqo48n2vnhnlevf4kuo5l',
         key: uuidv4()
-      },
-      features: {
-        'color': {treatment: 'blue', config: null},
       },
     });
     this.splitClient = this.splitio.client();
@@ -53,23 +53,38 @@ export class SplitioService {
    * @returns void
    */
   private verifyReady(): void {
-    const isReadyEvent = fromEvent(this.splitClient, this.splitClient.Event.SDK_READY);
+    // const isReadyEvent = fromEvent(this.splitClient, this.splitClient.Event.SDK_READY);
+    //
+    // this.subscription = isReadyEvent.subscribe(res => {
+    //     this.isReady = true;
+    //     this.treatments.next(this.splitClient.getTreatments(['color']));
+    //     console.log('Sdk ready: ', this.isReady);
+    //   },
+    //   error => {
+    //     console.log('Sdk error: ', error);
+    //     this.isReady = false;
+    //     this.unsubscribeSDK();
+    //   }
+    // );
 
-    this.subscription = isReadyEvent.subscribe(res => {
-        this.isReady = true;
-        console.log('Sdk ready: ', this.isReady);
-      },
-      error => {
-        console.log('Sdk error: ', error);
-        this.isReady = false;
-        this.unsubscribeSDK();
 
-      }
-    );
+    this.splitClient.on(this.splitClient.Event.SDK_READY, () => {
+      console.log('Sdk ready');
+      // fired each time the client state changes.
+      // For example, when a Split or a Segment changes.
+      this.treatments.next(this.splitClient.getTreatments(this.splitNames));
+    });
+
+    this.splitClient.on(this.splitClient.Event.SDK_UPDATE, () => {
+      console.log('Sdk update');
+      // fired each time the client state changes.
+      // For example, when a Split or a Segment changes.
+      this.treatments.next(this.splitClient.getTreatments(this.splitNames));
+    });
   }
 
-  getTreatment(feature: string): string {
-    return this.splitClient.getTreatment(feature)
+  getTreatment(feature: string): Observable<string> {
+    return this.treatments.pipe(map((value) => value[feature]));
   }
 
   /**

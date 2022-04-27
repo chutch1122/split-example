@@ -1,34 +1,36 @@
-import {Component} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {SplitioService} from "./splitio.service";
 import {MatDialog} from "@angular/material/dialog";
-import {AudioDialogComponent} from "./audio-dialog/audio-dialog.component";
+import {SurveyDialogComponent} from "./survey-dialog/survey-dialog.component";
+import {filter, tap} from 'rxjs';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit, OnDestroy {
+  color: string = ''
 
   constructor(
     public dialog: MatDialog,
     private splitioService: SplitioService,
   ) {
     splitioService.initSdk();
-    this.splitioService.splitClient.on(splitioService.splitClient.Event.SDK_UPDATE, () => {
-      console.log('SDK updated');
-      this.dialog.open(AudioDialogComponent);
-    });
   }
 
-  getColor(): string {
-    const color = this.splitioService.getTreatment('color')
-    if (color === 'blue') {
-      return 'blue'
-    } else if (color === 'black') {
-      return 'black'
-    } else {
-      return ''
-    }
+  ngOnInit(): void {
+    this.splitioService.getTreatment('color')
+      .pipe(tap((color) => this.color = color))
+      .subscribe();
+    this.splitioService.getTreatment('survey')
+      .pipe(tap(console.log))
+      .pipe(filter(x => x == 'on'))
+      .pipe(tap(() => this.dialog.open(SurveyDialogComponent, {width: '50%', height: '50%'})))
+      .subscribe();
+  }
+
+  ngOnDestroy(): void {
+    this.splitioService.unsubscribeSDK();
   }
 }

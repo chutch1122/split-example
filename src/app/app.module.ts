@@ -1,17 +1,17 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
 
-import { AppComponent } from './app.component';
+import {AppComponent} from './app.component';
 import {SplitioService} from "./splitio.service";
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AudioDialogComponent } from './audio-dialog/audio-dialog.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {SurveyDialogComponent} from './survey-dialog/survey-dialog.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatButtonModule} from "@angular/material/button";
 
 @NgModule({
   declarations: [
     AppComponent,
-    AudioDialogComponent
+    SurveyDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -24,4 +24,5 @@ import {MatButtonModule} from "@angular/material/button";
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
