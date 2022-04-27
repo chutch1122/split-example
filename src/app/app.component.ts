@@ -26,7 +26,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.splitioService.getTreatment('survey')
       .pipe(tap(console.log))
       .pipe(filter(x => x == 'on'))
-      .pipe(tap(() => this.dialog.open(SurveyDialogComponent, {width: '50%', height: '50%'})))
+      .pipe(tap(() => this.dialog.open(SurveyDialogComponent, {width: '80vw', height: '80vh'})))
       .subscribe();
   }
 
