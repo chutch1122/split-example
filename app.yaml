@@ -1,0 +1,21 @@
+name: split-example
+region: sfo2
+static_sites:
+- build_command: |-
+    git init
+    git clean  -d  -f .
+    git remote add origin https://github.com/chutch1122/split-example
+    git fetch origin $BRANCH_NAME
+    git checkout $COMMIT_SHA
+    npm install
+    npm install -g @angular/cli
+    ng build --prod
+  environment_slug: node-js
+  github:
+    branch: master
+    deploy_on_push: true
+    repo: chutch1122/split-example
+  name: split-example
+  error_document: index.html
+  routes:
+  - path: /
